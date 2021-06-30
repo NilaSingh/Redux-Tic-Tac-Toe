@@ -7,8 +7,9 @@ const Game = () =>{
     const dispatch = useDispatch()
     const [history, setHistory] = useState([Array(9).fill(null)])//creating board array elements of 9 and setting each value to null to keep track of game history
     const [stepNum, setStepNum] = useState(0)
-    const [xIsNext, setXisNext] = useState(true)//state is set to true to keep track of whos turn it is, x is initially true because x will always go first
+    //const [xIsNext, setXisNext] = useState(true)//state is set to true to keep track of whos turn it is, x is initially true because x will always go first
     const winState =  useSelector(state => state.winState)
+    const xIsNext = useSelector(state => state.xIsNext)
     const winner = calculateWinner(history[stepNum])//history is array of all steps that have been taken this checks if theres a winner
     const xO = xIsNext ? "X" : "O"  //decides if an x or o goes in a square
     if(winner){
@@ -28,13 +29,24 @@ const Game = () =>{
         historyCopy[i] = xO  //this value will either be an x or O
         setHistory([...historyPoint, historyCopy]) //sets history to all the squares before + current square clicked
         setStepNum(historyPoint.length)
-        setXisNext(!xIsNext) //changes x is next to false so itll switch to O turn
+        dispatch({
+            type:"MADE_MOVE",
+            payload:!xIsNext,
+        })
+        //setXisNext(!xIsNext) //changes x is next to false so itll switch to O turn
     }
     const renderMoves = () => {
         const destination = `Restart Game`
         const move = 0
         setStepNum(move)
-        setXisNext(move % 2 === 0)   
+        //setXisNext(move % 2 === 0)
+        dispatch({
+            type:'RESET',
+            payload:{
+                winState:'',
+                xIsNext:false
+            }
+        })  
     }
     return (
         <>
@@ -45,7 +57,7 @@ const Game = () =>{
             <h3>History</h3>
             <button onClick={renderMoves}>Restart Game</button>
             </div>
-            <h3>{winner ? "Winner: "+winState : "Next Player "+ xO}</h3> 
+            <h3>{winner ? "Winner: "+winState : "Next Player : "+ xO}</h3> 
             {/* if winner is not null then output winner if false output next player */}
         </div>
         </>

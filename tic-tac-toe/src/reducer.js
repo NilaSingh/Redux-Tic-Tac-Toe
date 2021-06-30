@@ -1,6 +1,7 @@
 const initialState = {
-    winState:'',
-    nextPlayer:true
+    winState:'', //works
+    xIsNext:true,    
+    history:Array(9).fill(null)
 }
 const reducer = (state=initialState,action) =>{
     console.log(action)
@@ -9,6 +10,11 @@ const reducer = (state=initialState,action) =>{
             return {
                 ...state,
                 winState:action.payload
+            }
+        case "MADE_MOVE":
+            return {
+                ...state,
+                xIsNext:action.payload
             }
         default:
             return state
