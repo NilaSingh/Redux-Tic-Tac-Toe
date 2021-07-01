@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const Game = () =>{
     const dispatch = useDispatch()
+    const gameBoard = useSelector(state => state.gameBoard)
     const [history, setHistory] = useState([Array(9).fill(null)])//creating board array elements of 9 and setting each value to null to keep track of game history
     const [stepNum, setStepNum] = useState(0)
-    //const [xIsNext, setXisNext] = useState(true)//state is set to true to keep track of whos turn it is, x is initially true because x will always go first
     const winState =  useSelector(state => state.winState)
     const xIsNext = useSelector(state => state.xIsNext)
     const winner = calculateWinner(history[stepNum])//history is array of all steps that have been taken this checks if theres a winner
@@ -27,26 +27,25 @@ const Game = () =>{
         }  //if there has been a winner or square already has a value in in then itll return nothing because game is over or square is taken
         //if no winner and valid square selected
         historyCopy[i] = xO  //this value will either be an x or O
+        dispatch({
+            type: "UPDATE_HISTORY",
+            payload:[...historyPoint,historyCopy]
+            
+        })
         setHistory([...historyPoint, historyCopy]) //sets history to all the squares before + current square clicked
         setStepNum(historyPoint.length)
         dispatch({
             type:"MADE_MOVE",
             payload:!xIsNext,
         })
-        //setXisNext(!xIsNext) //changes x is next to false so itll switch to O turn
     }
+    console.log(gameBoard[stepNum])
+
     const renderMoves = () => {
         const destination = `Restart Game`
         const move = 0
         setStepNum(move)
-        //setXisNext(move % 2 === 0)
-        dispatch({
-            type:'RESET',
-            payload:{
-                winState:'',
-                xIsNext:false
-            }
-        })  
+
     }
     return (
         <>

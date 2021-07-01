@@ -1,7 +1,7 @@
 const initialState = {
     winState:'', //works
-    xIsNext:true,    
-    history:Array(9).fill(null)
+    xIsNext:true,    //works
+    gameBoard:Array(9).fill("")
 }
 const reducer = (state=initialState,action) =>{
     console.log(action)
@@ -15,6 +15,11 @@ const reducer = (state=initialState,action) =>{
             return {
                 ...state,
                 xIsNext:action.payload
+            }
+        case "UPDATE_HISTORY":
+            return{
+                ...state,
+                gameBoard:action.payload
             }
         default:
             return state
