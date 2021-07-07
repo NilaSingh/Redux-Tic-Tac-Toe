@@ -2,12 +2,13 @@ import React, {useState} from 'react'
 import Board from './Board'
 import {calculateWinner} from "../helper"
 import { useDispatch, useSelector } from 'react-redux';
-
+let steps=0
 const Game = () =>{
     const dispatch = useDispatch()
     const gameBoard = useSelector(state => state.gameBoard)
     const [history, setHistory] = useState([Array(9).fill(null)])//creating board array elements of 9 and setting each value to null to keep track of game history
-    let stepNum = [0]
+    let stepNum = steps++
+    console.log(stepNum)
     const xIsNext = useSelector(state => state.xIsNext)
     const xO = xIsNext ? "X" : "O"  //decides if an x or o goes in a square
     let winner = calculateWinner(history[stepNum])//history is array of all steps that have been taken this checks if theres a winner
@@ -43,10 +44,9 @@ const Game = () =>{
 
     }
     }
-    console.log(gameBoard[stepNum])
 
     const resetGame = () => {
-        stepNum=0
+        steps=0
         dispatch({
             type:"RESET",
             payload:{
