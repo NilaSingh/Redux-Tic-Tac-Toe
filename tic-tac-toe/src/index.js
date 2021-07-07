@@ -1,14 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import ReactDom from 'react-dom'
 import Game from './components/Game'
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux'
 import { createStore } from 'redux' 
 import reducer from './reducer'
 
-const store = createStore(reducer)
+const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 ReactDOM.render(
   <Provider store = {store}>
     <Game />
