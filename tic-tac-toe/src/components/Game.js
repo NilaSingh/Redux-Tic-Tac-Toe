@@ -29,6 +29,13 @@ const Game = () =>{
         })
         newGame=false
     }
+    if(hist.length===10 && !winner){
+        winner = 'Its A Draw'
+        dispatch({
+            type:'WINNER',
+            payload:winner
+            })
+    }
     const handleClick = (i) =>{  //if we click on square pass index of it in 
         const historyPoint = hist.slice(0,steps + 1)//gets data from start to whatever point in history we are at;
         const curr= historyPoint[steps]
